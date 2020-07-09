@@ -1,0 +1,110 @@
+---
+title: "Untitled"
+author: "anestis.karonidis@gmail.com"
+date: "6/7/2020"
+output: html_document
+---
+
+This project is about the ANZ Virtual experience program. 
+Firstly, i will set my working directory insert my file and load the necessary libraries
+
+```{r load the necessary, warning=FALSE}
+setwd("F:/")
+library(tidyverse)
+library(readxl)
+ANZ_synthesised_transaction_dataset <- read_excel("F:/Virtual_internships_experience/ANZ Data@ANZ Program/ANZ synthesised transaction dataset.xlsx", 
+    sheet = "DSynth_Output_100c_3m_v3")
+df <- ANZ_synthesised_transaction_dataset 
+remove(ANZ_synthesised_transaction_dataset)
+df2 <- df %>%
+ group_by(customer_id) %>%
+ summarise(mon_avg_vol = round(n()/3,0))
+```
+
+After that i will do a basic overview of the project 
+
+```{r, Overview}
+summary(df)
+glimpse(df)
+```
+
+Let's find the missing unique and distinct values
+
+```{r unique missing and distinct values}
+unique(df)
+sum(is.na(df))
+```
+
+
+
+```{r}
+df %>% 
+  select(gender, txn_description) %>% 
+  filter(gender == 'M') %>% 
+  arrange( gender) %>% 
+  arrange(txn_description) %>% 
+  ggplot(df, mapping = aes(txn_description, gender)) +
+  theme_bw() %>% 
+  ggtitle('what gender has the most categories') +
+  geom_bar(stat = 'identity', na.rm = TRUE)
+```
+```{r, Investigating the most viewed ages at males }
+# first i will create a subset of the data 
+age_gender <- df %>% 
+  select(age , gender) %>% 
+  arrange(age, gender)
+#then i will create the dataframe that will be included only males between 18-30
+
+by_18 <- age_gender %>% 
+  filter(age >= 18 & age <= 34 & gender =='M')
+ggplot(by_18, aes(age, gender)) +
+  ggtitle('What is the most viewed age between 18-34') +
+  theme_bw() +
+  geom_bar(stat = 'identity')
+#then i will create the dataframe that will be included only males between 30-50
+
+by_34 <- age_gender %>% 
+  filter(age >= 34 & age <= 50 & gender =='M')
+ggplot(by_34, aes(age, gender)) +
+  ggtitle('What is the most viewed age between 34-50') +
+  theme_bw() +
+  geom_bar(stat = 'identity')
+
+#then i will create the dataframe that will be included only males between 50-80
+
+by_50 <- age_gender %>% 
+  filter(age >= 50 & age <= 80 & gender =='M') 
+ggplot(by_50, aes(age, gender)) +
+  ggtitle('What is the most viewed age between 50-80') +
+  theme_bw() +
+  geom_bar(stat = 'identity')
+```
+As we can see the most ages are in the first section 18-30 and especially these ages are between 20 and 30. These ages 18-30 represent about 33% of our dataset. In the next section 34-50 the most ages are between 37-40 that represents around 18% of our dataset. Moving in the last section we find that the highest value is 65-72 and this section represnts 1,8%. So, in general all these sections represents only the 52% of our dataset,that is because we have investigate only the males gender. In the next section i will investigate the female gender in these ages 
+
+```{r, Investigating the most viewed ages at females}
+by_18_f <- age_gender %>% 
+  filter(age >= 18 & age <= 34 & gender =='F')
+ggplot(by_18_f, aes(age, gender)) +
+  ggtitle('What is the most viewed age between 18-34') +
+  theme_bw() +
+  geom_bar(stat = 'identity')
+
+by_34_f <- age_gender %>% 
+  filter(age >= 34 & age <= 50 & gender =='F')
+ggplot(by_34_f, aes(age, gender)) +
+  ggtitle('What is the most viewed age between 34-50') +
+  theme_bw() +
+  geom_bar(stat = 'identity')
+
+by_50_f <- age_gender %>% 
+  filter(age >= 50 & age <= 80 & gender =='F') 
+ggplot(by_50_f, aes(age, gender)) +
+  ggtitle('What is the most viewed age between 50-80') +
+  theme_bw() +
+  geom_bar(stat = 'identity')
+```
+If we compare the results of the firstmale sectin with the female section we will understand that in the male section between 20 and 25 we have all the ages while in th female section there is not the age of 22. Next in the female section there is no the age of 28 and 29 .Lastly in the female section we do not have ages between 31 and 34 making the female section less reliable.  
+
+Now about the second section between males and females at the age 34-50. In the male section we do not have the age of 34 while in the female section the most prevailing value is 34. In the male section the most prevailing value is 38 .
+
+In the last section we have the maximum age for the men which is 80 and for the female section is 65. After that , the female section has not any age between 55 and 65 while the male section has not any age at 60s . 
