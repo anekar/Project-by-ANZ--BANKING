@@ -1,0 +1,23 @@
+---
+title: "Project"
+output: html_document
+---
+
+```{R Setting working directory, echo=FALSE}
+getwd()
+.libPaths('C:/Users/Lazaros')
+```
+
+```{R, Importing the libraries}
+library(readxl)
+library(tidyverse)
+library(readr)
+```
+
+```{R, Importing the files}
+df <- read_delim('ANZ_synthesised_transaction_dataset', delim = ';', escape_double = FALSE, trim_ws = TRUE)
+```
+
+library(readr)
+Categories <- read_delim("Categories.csv", 
+    delim = ";", escape_double = FALSE, trim_ws = TRUE)
