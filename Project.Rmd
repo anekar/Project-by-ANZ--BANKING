@@ -1,0 +1,42 @@
+---
+title: "Project"
+output: html_document
+---
+
+```{R Setting working directory, echo=FALSE}
+getwd()
+.libPaths('C:/Users/Lazaros')
+```
+
+```{R, Importing the libraries}
+library(readxl)
+library(tidyverse)
+library(readr)
+```
+
+```{R, Importing the files}
+Originalfile <- read_excel("ANZ synthesised transaction dataset.xlsx")
+View(ANZ_synthesised_transaction_dataset)
+Copiedfile <-  read_excel("ANZ synthesised transaction dataset.xlsx")
+```
+
+```{R , Columns to drop}
+ # Columns to drop(bpay_biller_code, account, merchant_id, merchant_code, first_name, transaction_id, country, )
+Copiedfile <- subset(Copiedfile, select = -c(bpay_biller_code,account, merchant_id, merchant_code, 
+                                 first_name, transaction_id, country, currency, customer_id))
+
+```
+
+```{R, NA values on card_present_flag}
+# 1 true and 0 false
+# Moving to second column i need to take care of the NA values but i do not want to 
+# miss 4000 observations from my dataset so i will replace NA WITH 'Not Available'
+# After that i want to replace 0 and 1 with false and true
+
+# Replacing 1 and 0 with true and false 
+
+new <- as.logical(copied2$card_present_flag)
+
+# Replacing NA with Not availableCopiedfile <- 
+copied2 %>% replace_na(list(card_present_flag = 'Not Available'))
+```
