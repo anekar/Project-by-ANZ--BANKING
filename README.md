@@ -1,5 +1,5 @@
 # Information 
-This is a project to demonstrate my analytical skills provided by ANZ Banking.Futhremore, the current project was created from the virtual intersip program of the company.
+This is a project to demonstrate my analytical skills provided by ANZ Banking.Futhremore, the current project was created from the virtual intership program of the company.
 # Code Samples
 * Activating the libraries
 ```R
