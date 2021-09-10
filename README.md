@@ -85,10 +85,11 @@ R
 # Environement
 **Rstudio**
 # Phases for the project
+
 1. Data Collection
-```R
+
 Data have been collected from [ANZ Virtual Internship](https://www.theforage.com/virtual-internships/prototype/ZLJCsrpkHo9pZBJNY/ANZ-Virtual-Internship?ref=YZcMJxpBJgfMhAS7T)
-```
+
 2. Data Cleaning
 
 ```R
