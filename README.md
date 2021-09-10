@@ -100,6 +100,7 @@ Data have been collected from [ANZ Virtual Internship](https://www.theforage.com
 5. Spreading data from columns
 ```
 3. Exploring the Data
+
 Installing 
 ```	R
 library('ggplot2)
