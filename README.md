@@ -71,17 +71,17 @@ setwd('C:/User/path/)
 .libPaths('/Path')
 ```
 
-3. Installing the necessary libraries
+3. Activating the necessary libraries
 ```R
-install.packages('readr')
-install.packages('readxl')
-install.packages('tidyverse')
+library('readr')
+library('readxl')
+library('tidyverse')
+library(magrittr)
+library(lubridate)
 ```
 # Languages
 The project was created using 
-```R
-R
-```
+```R```
 # Environement
 **Rstudio**
 # Phases for the project
