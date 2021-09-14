@@ -4,7 +4,6 @@ output: html_document
 ---
 
 ```{R Setting working directory, echo=FALSE}
-getwd()
 .libPaths('C:/Users/Lazaros')
 ```
 
@@ -12,6 +11,8 @@ getwd()
 library(readxl)
 library(tidyverse)
 library(readr)
+library(magrittr)
+library(lubridate)
 ```
 
 ```{R, Importing the files}
@@ -23,20 +24,61 @@ Copiedfile <-  read_excel("ANZ synthesised transaction dataset.xlsx")
 ```{R , Columns to drop}
  # Columns to drop(bpay_biller_code, account, merchant_id, merchant_code, first_name, transaction_id, country, )
 Copiedfile <- subset(Copiedfile, select = -c(bpay_biller_code,account, merchant_id, merchant_code, 
-                                 first_name, transaction_id, country, currency, customer_id))
+                                 first_name, transaction_id, country, currency, customer_id, long_lat))
 
 ```
 
-```{R, NA values on card_present_flag}
+```{R echo=TRUE}
 # 1 true and 0 false
 # Moving to second column i need to take care of the NA values but i do not want to 
 # miss 4000 observations from my dataset so i will replace NA WITH 'Not Available'
 # After that i want to replace 0 and 1 with false and true
 
+# Making a copy of the file
+copied2 <- Copiedfile
 # Replacing 1 and 0 with true and false 
+card_present_flag <- as.logical(copied2$card_present_flag)
+# Combining the column with the copied2 file
+copied3 <- cbind(copied2, card_present_flag)
+# Rearranging the order of the columns
+copied3 <- copied3[,c(1,14,3,4,5,6,7,8,9,10,11,12,13,14)]
+# Deleting the last column
+copied3 <- copied3[-c(15,3,13)] 
+# Replacing NA with Not availableCopiedfile 
+copied3 <- copied3 %>% replace_na(list(card_present_flag = 'Not Available'))
+```
 
-new <- as.logical(copied2$card_present_flag)
 
-# Replacing NA with Not availableCopiedfile <- 
-copied2 %>% replace_na(list(card_present_flag = 'Not Available'))
+```{r merchant_suburb}
+# Replacing NA values with 'Not Available'
+copied3 <- copied3 %>% 
+    replace_na(list(merchant_suburb = 'Not Available'))
+
+```
+
+```{r merchant_state}
+# same for this variable
+copied3 <- copied3 %>% 
+    replace_na(list(merchant_state = 'Not Available'))
+```
+
+```{r, extraction}
+# factor function <- makes sure that the class of the dara will remain as be
+# case_when <- something like CASE WHEN OF sql
+# setting the date column as date 
+copied3$date <- ymd(copied3$date)
+# changing the format of extraction column
+copied3$extraction <- ymd_hms(copied3$extraction)
+# extracting the time from extraction column
+Time <- format(copied3$extraction, format = '%H %M %S')
+# uniting Time and copied3
+copied4 <- cbind(copied3, Time)
+# deleting unnecessary columns
+copied4 <- subset(copied4, select = -c(card_present_flag, extraction))
+copied4 <- subset(copied4, select = -c(extraction))
+```
+
+```{R, Questions answered}
+# 1. Status by sex
+
 ```
