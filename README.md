@@ -76,8 +76,8 @@ setwd('C:/User/path/)
 library('readr')
 library('readxl')
 library('tidyverse')
-library(magrittr)
-library(lubridate)
+library('magrittr')
+library('lubridate')
 ```
 # Languages
 The project was created using 
